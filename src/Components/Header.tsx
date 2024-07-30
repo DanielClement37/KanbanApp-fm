@@ -25,7 +25,7 @@ const Header = () => {
 					<h3>Platform Launch</h3> {/* replace this with data from board later and remove this comment*/}
 					{!isBiggerScreen && <img src={isDropDownOpen ? ChevronUp : ChevronDown} alt="dropdown opened/closed" onClick={() => setIsDropDownOpen(!isDropDownOpen)} />}
 				</div>
-				<button className="add-task-btn">{isBiggerScreen ? "+ Add New Task" : <img src={AddTaskIcon} alt="add task" />}</button>
+				<button className="btn add-task-btn">{isBiggerScreen ? "+ Add New Task" : <img src={AddTaskIcon} alt="add task" />}</button> {/*TODO disable button when there board is empty*/}
 				<img className="ellipsis-btn" src={Ellipsis} alt="edit or delete board" />
 			</header>
 		</div>

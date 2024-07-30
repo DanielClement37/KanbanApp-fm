@@ -1,7 +1,15 @@
+import { Board } from "../../types/kanbanTypes";
+
 export interface AppState {
+	isDarkMode: boolean;
+	isSidebarVisible: boolean;
+	boards: Board[];
 }
 
 export const initialState: AppState = {
+	isDarkMode: false,
+	isSidebarVisible:true,
+	boards: []
 };
 
 
