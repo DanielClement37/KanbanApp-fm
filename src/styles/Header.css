@@ -11,11 +11,14 @@ header {
 	background-color: var(--white);
 	position: relative;
     padding-right: 16px;
-    padding-left: 16px;
 }
 
 .dark header {
 	background: var(--dark-grey);
+}
+
+.logo-container{
+	padding-left: 1rem;
 }
 
 .board-name-container {
@@ -40,10 +43,9 @@ header {
         height: 100%;
 		display: flex;
 		align-items: center;
-		gap: 15px;
-		width: calc(261px - 16px);
-		padding-left: 10px;
+		width: 261px;
 		border-right: 1px solid var(--lines-light);
+		padding-left: 1.5rem;
 	}
     
 	.header-name-container {

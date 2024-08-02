@@ -9,17 +9,17 @@ import Sidebar from "./Components/Sidebar";
 import { useMediaQuery } from "react-responsive";
 
 function App() {
-  const isBiggerScreen = useMediaQuery({ minWidth: 768 }); //For Tablet and up
+	const isBiggerScreen = useMediaQuery({ minWidth: 768 }); //For Tablet and up
 	const { state, dispatch } = useContext(AppContext);
-  const { boards} = state
+	const { boards } = state;
 
 	return (
 		<div className="app-container">
 			<Header />
 			<div className="content-container">
-        {isBiggerScreen && <Sidebar />}
-        {boards.length === 0 ? <EmptyBoard /> : <Boards />}
-      </div>
+				{isBiggerScreen && <Sidebar />}
+				{boards.length === 0 ? <EmptyBoard /> : <Boards />}
+			</div>
 		</div>
 	);
 }
