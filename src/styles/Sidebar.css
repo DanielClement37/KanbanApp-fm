@@ -7,6 +7,29 @@
 	padding-bottom: 2rem;
 }
 
+.show-sidebar-container {
+	width: 3.5rem;
+	height: 3rem;
+	background-color: var(--main-purple);
+	border-top-right-radius: 100px;
+	border-bottom-right-radius: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed; 
+	left: 0; 
+	bottom: 2rem; 
+	cursor: pointer;
+}
+
+.show-sidebar-container:hover{
+	background-color: var(--purple-hover);
+}
+
+.show-sidebar-icon {
+	width: 18px;
+	height: 16px;
+}
 .sidebar-container > * {
 	color: var(--medium-grey);
 }
