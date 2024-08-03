@@ -5,6 +5,14 @@
 	display: grid;
 	grid-template-rows: 4rem 1fr 3rem 3rem;
 	padding-bottom: 2rem;
+	transition: width 0.3s ease, opacity 0.3s ease;
+}
+
+.sidebar-hidden {
+	width: 0;
+	opacity: 0;
+	overflow: hidden;
+	transition: width 0.3s ease, opacity 0.3s ease;
 }
 
 .show-sidebar-container {
@@ -20,16 +28,22 @@
 	left: 0; 
 	bottom: 2rem; 
 	cursor: pointer;
+	transition: opacity 0.3s ease;
 }
 
-.show-sidebar-container:hover{
+.show-sidebar-container:hover {
 	background-color: var(--purple-hover);
+}
+
+.show-sidebar-container.visible {
+	opacity: 1;
 }
 
 .show-sidebar-icon {
 	width: 18px;
-	height: 16px;
+	height: 11px;
 }
+
 .sidebar-container > * {
 	color: var(--medium-grey);
 }
