@@ -34,3 +34,11 @@
 	font-size: 12px;
 	line-height: 15px;
 }
+
+.grey-text{
+	color: var(--medium-grey);
+}
+
+.red-text{
+	color: var(--red);
+}

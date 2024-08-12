@@ -10,13 +10,16 @@ import AddTaskIcon from "../assets/icon-add-task-mobile.svg";
 import Ellipsis from "../assets/icon-vertical-ellipsis.svg";
 import "../styles/Header.css";
 import { AppContext } from "../stateManagement/context/AppContext";
+import ElipseMenu from "./Modals/ElipseMenu";
 
 const Header = () => {
 	const isBiggerScreen = useMediaQuery({ minWidth: 768 }); //For Tablet and up
 	const { state, dispatch } = useContext(AppContext);
 	const { boards, activeBoardIndex } = state;
+	const board = activeBoardIndex !== null ? boards[activeBoardIndex] : null;
 
-	//States
+	//modals
+	const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
 	const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
 	return (
@@ -25,12 +28,21 @@ const Header = () => {
 				<div className="logo-container">
 					<img className="logo" src={!isBiggerScreen ? LogoMobile : LogoDark} alt="logo" />
 				</div>
-				<div className="board-name-container heading-L">
-					<h3>{activeBoardIndex !== null ? boards[activeBoardIndex].name : ''}</h3>
-					{!isBiggerScreen && <img src={isDropDownOpen ? ChevronUp : ChevronDown} alt="dropdown opened/closed" onClick={() => setIsDropDownOpen(!isDropDownOpen)} />}
+				<div onClick={() => setIsDropDownOpen(!isDropDownOpen)} className="board-name-container heading-L">
+					<h3>{boards[activeBoardIndex!].name}</h3>
+					{!isBiggerScreen && <img src={isDropDownOpen ? ChevronUp : ChevronDown} alt="dropdown opened/closed" />}
 				</div>
-				<button className="btn add-task-btn">{isBiggerScreen ? "+ Add New Task" : <img src={AddTaskIcon} alt="add task" />}</button> {/*TODO disable button when there board is empty*/}
-				<img className="ellipsis-btn" src={Ellipsis} alt="edit or delete board" />
+				<button className="btn add-task-btn">{isBiggerScreen ? "+ Add New Task" : <img src={AddTaskIcon} alt="add task" />}</button>{" "}
+				{/*TODO disable button when there board is empty*/}
+				<div
+					className="elipsis-container"
+					onClick={() => {
+						setIsElipsisMenuOpen((prevState) => !prevState);
+					}}
+				>
+					<img className="elipsis-btn" src={Ellipsis} alt="edit or delete board" />
+				</div>
+				{isElipsisMenuOpen && <ElipseMenu type="board" item={board!} index={activeBoardIndex!} />}
 			</header>
 		</div>
 	);
