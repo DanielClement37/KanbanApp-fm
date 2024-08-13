@@ -16,3 +16,10 @@ export interface Action {
 	payload: GameState | RunningState | Cell[]  |{ row: number, col: number }[]
 }
 **/
+
+export const SET_ACTIVE_BOARD_INDEX = "SET_ACTIVE_BOARD_INDEX";
+
+export interface Action {
+	type: "SET_ACTIVE_BOARD_INDEX",
+	payload: number,
+}

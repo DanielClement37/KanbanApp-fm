@@ -4,6 +4,7 @@ import IconLightTheme from "../assets/icon-light-theme.svg";
 import IconDarkTheme from "../assets/icon-dark-theme.svg";
 import IconShowSidebar from "../assets/icon-show-sidebar.svg";
 import "../styles/Sidebar.css";
+import { SET_ACTIVE_BOARD_INDEX } from "../stateManagement/actions/actiontypes";
 
 interface SidebarItemProps {
 	icon: React.ReactNode;
@@ -23,7 +24,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ icon, label, isSelected = fal
 );
 
 const Sidebar: React.FC = () => {
-	const { state } = useContext(AppContext);
+	const { state, dispatch } = useContext(AppContext);
 	const { boards, activeBoardIndex } = state;
 	const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
@@ -33,6 +34,10 @@ const Sidebar: React.FC = () => {
 
 	const handleShowSidebar = () => {
 		setIsSidebarVisible(true);
+	};
+
+	const handleSidebarItemClick = (index: number) => {
+		dispatch({ type: SET_ACTIVE_BOARD_INDEX, payload: index });
 	};
 
 	return (
@@ -50,6 +55,7 @@ const Sidebar: React.FC = () => {
 							}
 							label={board.name}
 							isSelected={index === activeBoardIndex}
+							onClick={()=>handleSidebarItemClick(index)}
 						/>
 					))}
 					<SidebarItem
