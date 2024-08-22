@@ -66,6 +66,7 @@
     padding: 1.5rem 1rem 1.5rem 1rem;
     gap: 0.5rem;
     overflow: visible;
+    cursor: pointer;
 }
 
 .task-card:hover h3{

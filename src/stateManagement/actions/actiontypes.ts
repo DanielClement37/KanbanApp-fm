@@ -1,25 +1,31 @@
-/** 
-import { RunningState } from "../../Types/Enums";
-import { Cell, GameState } from "../../Types/GameTypes";
-
-export const SET_MATCH_STATE = "SET_MATCH_STATE";
-export const PAUSE = "PAUSE"
-export const RESUME = "RESUME"
-export const MAKE_MOVE = "MAKE_MOVE";
-export const GET_MOVES = "GET_MOVES";
-export const SET_HOVERED_COLUMN = "SET_HOVERED_COLUMN"
-export const GAME_OVER = "GAME_OVER"
-export const SET_WINNING_CELLS = "SET_WINNING_CELLS"
-
-export interface Action {
-	type: "SET_MATCH_STATE" | "MAKE_MOVE" | "PAUSE"| "RESUME" | "GET_MOVES" | "SET_HOVERED_COLUMN" | "GAME_OVER" | "SET_WINNING_CELLS";
-	payload: GameState | RunningState | Cell[]  |{ row: number, col: number }[]
-}
-**/
+import { Column, Task } from "../../types/kanbanTypes";
 
 export const SET_ACTIVE_BOARD_INDEX = "SET_ACTIVE_BOARD_INDEX";
+export const SET_TASK_VIEW = "SET_TASK_VIEW";
+export const SET_SUBTASK_STATE = "SET_SUBTASK_STATE";
 
-export interface Action {
-	type: "SET_ACTIVE_BOARD_INDEX",
-	payload: number,
+export interface SetActiveBoardIndexAction {
+    type: typeof SET_ACTIVE_BOARD_INDEX;
+    payload: number;
 }
+
+export interface SetTaskViewAction {
+    type: typeof SET_TASK_VIEW;
+    payload: {
+        task: Task | null;
+        column: Column | null;
+    };
+}
+
+export interface SetSubtaskState {
+    type: typeof SET_SUBTASK_STATE;
+    payload: {
+        boardIndex: number;
+        columnIndex: number;
+        taskIndex: number;
+        subtaskIndex: number;
+        isCompleted: boolean;
+    };
+}
+
+export type Action = SetActiveBoardIndexAction | SetTaskViewAction | SetSubtaskState;

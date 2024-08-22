@@ -5,13 +5,15 @@ import "../styles/Board.css";
 
 type TaskCardProps = {
 	task: Task;
+	openTaskModal: () => void;
 };
 
-const TaskCard = ({ task }: TaskCardProps) => {
+const TaskCard = ({ task, openTaskModal }: TaskCardProps) => {
 	const completedSubtasks = task.subtasks.filter((subtask) => subtask.isCompleted).length;
 
+	
 	return (
-		<div className="task-card">
+		<div className="task-card" onClick={openTaskModal}>
 			<h3 className="heading-M">{task.title}</h3>
 			<p className="sub-task-count text-M">
 				{completedSubtasks} of {task.subtasks.length} subtasks

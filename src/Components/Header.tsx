@@ -37,7 +37,7 @@ const Header = () => {
 				<div
 					className="elipsis-container"
 					onClick={() => {
-						setIsElipsisMenuOpen((prevState) => !prevState);
+						setIsElipsisMenuOpen(!isElipsisMenuOpen);
 					}}
 				>
 					<img className="elipsis-btn" src={Ellipsis} alt="edit or delete board" />

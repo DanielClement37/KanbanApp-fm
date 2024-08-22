@@ -1,0 +1,96 @@
+/* ViewTask.css */
+
+.view-task-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 21.5rem; 
+    width: 90%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1001; 
+}
+
+.task-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-title {
+    margin: 0;
+}
+
+.task-description {
+    margin: 1rem 0;
+    color: var(--medium-grey);
+}
+
+.sub-task-count {
+    margin: 1rem 0;
+}
+
+.elipsis-container {
+    cursor: pointer;
+}
+
+.subtasks-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+}
+
+.subtask-item {
+    display: flex;
+    align-items: center;
+    background-color: var(--light-grey);
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.subtask-checkbox {
+    display: none; 
+}
+
+.subtask-label {
+    font-size: 1rem;
+    color: var(--dark-grey);
+    cursor: pointer;
+    position: relative;
+    padding-left: 2rem; 
+}
+
+.subtask-label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid var(--dark-grey);
+    border-radius: 2px;
+    background-color: var(--white);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.subtask-checkbox:checked + .subtask-label::before {
+    background-color: var(--main-purple);
+    border-color: var(--main-purple);
+}
+
+.icon-check {
+    position: absolute;
+    left: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    width: 10px;
+    height: 8px;
+}
+
+.subtask-label.completed {
+    text-decoration: line-through;
+    color: var(--medium-grey);
+}
