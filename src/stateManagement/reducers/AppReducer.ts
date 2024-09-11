@@ -1,6 +1,6 @@
 import { Board, Column, Task } from "../../types/kanbanTypes";
 import GivenState from "../../json/data.json";
-import { Action, SET_ACTIVE_BOARD_INDEX, SET_SUBTASK_STATE, SET_TASK_VIEW } from "../actions/actiontypes";
+import { Action, MOVE_TASK, SET_ACTIVE_BOARD_INDEX, SET_SUBTASK_STATE, SET_TASK_VIEW } from "../actions/actiontypes";
 
 export interface AppState {
 	isDarkMode: boolean;
@@ -69,6 +69,40 @@ export const appReducer = (state: AppState, action: Action): AppState => {
                 ...state,
                 boards: updatedBoards,
             };
+        }
+
+        case MOVE_TASK:{
+            const { boardIndex, fromColumnIndex, toColumnIndex, taskIndex } = action.payload;
+
+			const taskToMove = state.boards[boardIndex].columns[fromColumnIndex].tasks[taskIndex];
+
+			const updatedBoards = state.boards.map((board, bIndex) => {
+				if (bIndex !== boardIndex) return board;
+
+				return {
+					...board,
+					columns: board.columns.map((column, cIndex) => {
+						if (cIndex === fromColumnIndex) {
+							return {
+								...column,
+								tasks: column.tasks.filter((_, tIndex) => tIndex !== taskIndex),
+							};
+						}
+						if (cIndex === toColumnIndex) {
+							return {
+								...column,
+								tasks: [...column.tasks, taskToMove],
+							};
+						}
+						return column;
+					}),
+				};
+			});
+
+			return {
+				...state,
+				boards: updatedBoards,
+			};
         }
 		default:
 			return state;

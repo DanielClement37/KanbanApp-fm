@@ -42,3 +42,11 @@
 .red-text{
 	color: var(--red);
 }
+
+::placeholder{
+	color: rgba(0,0,0, .5);
+}
+
+textarea {
+	resize: none;
+}
