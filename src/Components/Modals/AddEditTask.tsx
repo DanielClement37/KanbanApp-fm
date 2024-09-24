@@ -1,11 +1,7 @@
 import React, {useContext} from "react";
 import "../../styles/AddEditTask.css";
 import {AppContext} from "../../stateManagement/context/AppContext.tsx";
-
-interface AddEditTaskProps {
-    closeTaskModal: () => void;
-    isEditMode: boolean;
-}
+import {Task} from "../../types/kanbanTypes";
 
 interface AddEditSubtaskProps {
     placeholder: string;
@@ -25,8 +21,14 @@ const AddEditSubtask = ({placeholder}: AddEditSubtaskProps) => {
     );
 }
 
-const AddEditTask = ({closeTaskModal, isEditMode}: AddEditTaskProps) => {
-    const {state, dispatch} = useContext(AppContext);
+interface AddEditTaskProps {
+    closeTaskModal: () => void;
+    isEditMode: boolean;
+    task?: Task;
+}
+
+const AddEditTask = ({closeTaskModal, isEditMode, task}: AddEditTaskProps) => {
+    const {state} = useContext(AppContext);
     const {boards, activeBoardIndex} = state;
 
     return (
@@ -40,12 +42,16 @@ const AddEditTask = ({closeTaskModal, isEditMode}: AddEditTaskProps) => {
                     <div className="input-item">
                         <label htmlFor="title" className="text-M grey-text">Title</label>
                         <input type="text" id="title" className="input-field text-L"
-                               placeholder="e.g. Take coffee break"/>
+                               placeholder="e.g. Take coffee break">
+                            {task?.title}
+                        </input>
                     </div>
                     <div className="input-item">
                         <label htmlFor="description" className="text-M grey-text">Description</label>
                         <textarea id="description" className="input-field text-area text-L"
-                                  placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."/>
+                                  placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.">
+                            {task?.description}
+                        </textarea>
                     </div>
                     <div className="subtask-form-container">
                         <label htmlFor="subtask" className="text-M grey-text">Subtasks</label>
@@ -64,7 +70,7 @@ const AddEditTask = ({closeTaskModal, isEditMode}: AddEditTaskProps) => {
                         </select>
                     </div>
                     <div className="input-item">
-                        <button className=" btn submit-btn text-L">Create Task</button>
+                        <button className="btn submit-btn text-L">Create Task</button>
                     </div>
                 </div>
             </div>
