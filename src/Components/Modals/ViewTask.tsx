@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import Ellipsis from "../../assets/icon-vertical-ellipsis.svg";
 import IconCheck from "../../assets/icon-check.svg";
-import {Column, Task} from "../../types/kanbanTypes";
+import {Task} from "../../types/kanbanTypes";
 import "../../styles/ViewTask.css";
 import {SET_SUBTASK_STATE, MOVE_TASK} from "../../stateManagement/actions/actiontypes";
 import {AppContext} from "../../stateManagement/context/AppContext";
