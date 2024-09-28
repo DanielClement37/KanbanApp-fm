@@ -47,7 +47,7 @@ const Header = () => {
 					<img className="elipsis-btn" src={Ellipsis} alt="edit or delete board" />
 				</div>
 				{isElipsisMenuOpen && <ElipseMenu type="board" item={board!} index={activeBoardIndex!} />}
-				{isAddTaskModalOpen && <AddEditTask closeTaskModal={()=>setIsAddTaskModalOpen(!isAddTaskModalOpen)} isEditMode={false} />}
+				{isAddTaskModalOpen && <AddEditTask closeTaskModal={()=>setIsAddTaskModalOpen(!isAddTaskModalOpen)} isEditMode={false}  />}
 			</header>
 		</div>
 	);

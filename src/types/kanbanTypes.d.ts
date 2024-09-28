@@ -11,7 +11,7 @@ export interface Column{
 export interface Task{
     title: string,
     description: string,
-    status: string          ///Eventually will be an id for which column it is on
+    status: string
     subtasks: Subtask[]
 }
 

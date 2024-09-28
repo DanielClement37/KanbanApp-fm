@@ -1,9 +1,11 @@
-import { Column, Task } from "../../types/kanbanTypes";
+import {Column, Task} from "../../types/kanbanTypes";
 
 export const SET_ACTIVE_BOARD_INDEX = "SET_ACTIVE_BOARD_INDEX";
 export const SET_TASK_VIEW = "SET_TASK_VIEW";
 export const SET_SUBTASK_STATE = "SET_SUBTASK_STATE";
 export const MOVE_TASK = "MOVE_TASK";
+export const ADD_TASK = "ADD_TASK";
+export const UPDATE_TASK = "UPDATE_TASK";
 
 export interface SetActiveBoardIndexAction {
     type: typeof SET_ACTIVE_BOARD_INDEX;
@@ -39,4 +41,29 @@ export interface MoveTask {
     };
 }
 
-export type Action = SetActiveBoardIndexAction | SetTaskViewAction | SetSubtaskState | MoveTask;
+export interface AddTaskAction {
+    type: typeof ADD_TASK;
+    payload: {
+        boardIndex: number;
+        columnName: string;
+        newTask: Task;
+    };
+}
+
+export interface UpdateTaskAction {
+    type: typeof UPDATE_TASK;
+    payload: {
+        boardIndex: number;
+        columnName: string;
+        taskIndex: number;
+        updatedTask: Task;
+    };
+}
+
+export type Action =
+    SetActiveBoardIndexAction
+    | SetTaskViewAction
+    | SetSubtaskState
+    | MoveTask
+    | AddTaskAction
+    | UpdateTaskAction;
