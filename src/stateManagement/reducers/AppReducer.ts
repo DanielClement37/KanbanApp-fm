@@ -2,8 +2,8 @@
 import {Board, Column, Task} from "../../types/kanbanTypes";
 import GivenState from "../../json/data.json";
 import {
-    Action,
-    ADD_TASK,
+    Action, ADD_BOARD,
+    ADD_TASK, DELETE_BOARD, EDIT_BOARD,
     MOVE_TASK,
     SET_ACTIVE_BOARD_INDEX,
     SET_SUBTASK_STATE,
@@ -143,7 +143,7 @@ export const appReducer = (state: AppState, action: Action): AppState => {
         }
 
         case UPDATE_TASK: {
-            const { boardIndex, updatedTask } = action.payload;
+            const {boardIndex, updatedTask} = action.payload;
 
             const board = state.boards[boardIndex];
 
@@ -222,6 +222,47 @@ export const appReducer = (state: AppState, action: Action): AppState => {
                     boards: updatedBoards,
                 };
             }
+        }
+        case ADD_BOARD: {
+            const newBoards = [...state.boards, action.payload];
+            return {
+                ...state,
+                boards: newBoards,
+            };
+        }
+
+        case EDIT_BOARD: {
+            const {boardIndex, updatedBoard} = action.payload;
+            const newBoards = state.boards.map((board, index) =>
+                index === boardIndex ? updatedBoard : board
+            );
+            return {
+                ...state,
+                boards: newBoards,
+            };
+        }
+
+        case DELETE_BOARD: {
+            const {boardIndex} = action.payload;
+            const newBoards = state.boards.filter((_, index) => index !== boardIndex);
+            let newActiveBoardIndex = state.activeBoardIndex;
+
+            // Adjust activeBoardIndex if necessary
+            if (state.activeBoardIndex !== null) {
+                if (state.activeBoardIndex === boardIndex) {
+                    // If the deleted board was the active one, reset to first board or null
+                    newActiveBoardIndex = state.boards.length > 1 ? 0 : null;
+                } else if (state.activeBoardIndex > boardIndex) {
+                    // Decrement activeBoardIndex if it was after the deleted board
+                    newActiveBoardIndex = state.activeBoardIndex - 1;
+                }
+            }
+
+            return {
+                ...state,
+                boards: newBoards,
+                activeBoardIndex: newActiveBoardIndex,
+            };
         }
         default:
             return state;

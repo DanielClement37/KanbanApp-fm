@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import Ellipsis from "../../assets/icon-vertical-ellipsis.svg";
 import IconCheck from "../../assets/icon-check.svg";
-import {Task} from "../../types/kanbanTypes";
+import {Column, Task} from "../../types/kanbanTypes";
 import "../../styles/ViewTask.css";
 import {SET_SUBTASK_STATE, MOVE_TASK} from "../../stateManagement/actions/actiontypes";
 import {AppContext} from "../../stateManagement/context/AppContext";
@@ -10,9 +10,9 @@ import AddEditTask from "./AddEditTask.tsx";
 
 interface ViewTaskProps {
     currTask: Task;
+    currColumn: Column;
     closeTaskModal: () => void;
 }
-
 const ViewTask = ({currTask, closeTaskModal}: ViewTaskProps) => {
     const {state, dispatch} = useContext(AppContext);
     const {boards, activeBoardIndex} = state;
@@ -45,7 +45,7 @@ const ViewTask = ({currTask, closeTaskModal}: ViewTaskProps) => {
             setLocalTask(state.boards[boardIndex].columns[foundColumnIndex].tasks[foundTaskIndex]);
             setSelectedColumn(boards[boardIndex].columns[foundColumnIndex].name);
         }
-    }, [state, boardIndex, localTask.title]);
+    }, [state, boardIndex, localTask.title, boards]);
 
     const handleToggleSubtask = (subtaskIndex: number) => {
         const isCompleted = !localTask.subtasks[subtaskIndex].isCompleted;

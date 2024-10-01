@@ -5,6 +5,7 @@ import IconDarkTheme from "../assets/icon-dark-theme.svg";
 import IconShowSidebar from "../assets/icon-show-sidebar.svg";
 import "../styles/Sidebar.css";
 import { SET_ACTIVE_BOARD_INDEX } from "../stateManagement/actions/actiontypes";
+import AddEditBoard from "./Modals/AddEditBoard.tsx";
 
 interface SidebarItemProps {
 	icon: React.ReactNode;
@@ -27,6 +28,7 @@ const Sidebar: React.FC = () => {
 	const { state, dispatch } = useContext(AppContext);
 	const { boards, activeBoardIndex } = state;
 	const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+	const [showBoardModal, setShowBoardModal] = useState(false);
 
 	const handleHideSidebar = () => {
 		setIsSidebarVisible(false);
@@ -66,6 +68,7 @@ const Sidebar: React.FC = () => {
 						}
 						label="+ Create New Board"
 						isPurple={true}
+						onClick={() => setShowBoardModal(true)}
 					/>
 				</div>
 				<div className="theme-selector-container">
@@ -94,6 +97,9 @@ const Sidebar: React.FC = () => {
 				<div className={`show-sidebar-container visible`} onClick={handleShowSidebar}>
 					<img className="show-sidebar-icon" src={IconShowSidebar} alt="Show Sidebar" />
 				</div>
+			)}
+			{showBoardModal && (
+				<AddEditBoard closeModal={()=>setShowBoardModal(false)} isEditMode={false} />
 			)}
 		</>
 	);

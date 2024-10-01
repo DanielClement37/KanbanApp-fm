@@ -1,40 +1,9 @@
 import React, {useContext, useState} from "react";
-import "../../styles/AddEditTask.css";
+import "../../styles/AddEditForm.css";
 import {AppContext} from "../../stateManagement/context/AppContext";
 import {Task, Subtask} from "../../types/kanbanTypes";
 import {ADD_TASK, UPDATE_TASK} from "../../stateManagement/actions/actiontypes";
-
-interface AddEditSubtaskProps {
-    index: number;
-    value: string;
-    onChange: (index: number, value: string) => void;
-    onRemove: (index: number) => void;
-}
-
-const AddEditSubtask = ({index, value, onChange, onRemove}: AddEditSubtaskProps) => (
-    <div className="subtask-input-item">
-        <input
-            type="text"
-            id={`subtask-${index}`}
-            className="input-field subtask-text-input"
-            placeholder="e.g. Make coffee"
-            value={value}
-            onChange={(e) => onChange(index, e.target.value)}
-        />
-        <svg
-            className="icon icon-subtask-delete"
-            width="15"
-            height="15"
-            xmlns="http://www.w3.org/2000/svg"
-            onClick={() => onRemove(index)}
-        >
-            <g  fill-rule="evenodd">
-                <path d="m12.728 0 2.122 2.122L2.122 14.85 0 12.728z"/>
-                <path d="M0 2.122 2.122 0 14.85 12.728l-2.122 2.122z"/>
-            </g>
-        </svg>
-    </div>
-);
+import AddEditListItem from "../FormComponents/AddEditListItem.tsx";
 
 interface AddEditTaskProps {
     closeTaskModal: () => void;
@@ -162,28 +131,29 @@ const AddEditTask = ({closeTaskModal, isEditMode, task, columnName, taskIndex}: 
                                 onChange={handleDescriptionChange}
                             />
                         </div>
-                        <div className="subtask-form-container">
+                        <div className="list-form-container">
                             <label className="text-M grey-text">
                                 Subtasks
                             </label>
-                            <div className="subtask-input-container">
+                            <div className="list-input-container">
                                 {subtasks.map((subtask, index) => (
-                                    <AddEditSubtask
+                                    <AddEditListItem
                                         key={index}
                                         index={index}
                                         value={subtask.title}
+                                        placeholder="e.g. Make coffee"
                                         onChange={handleSubtaskChange}
                                         onRemove={removeSubtask}
                                     />
                                 ))}
-                                <button
-                                    type="button"
-                                    className="add-subtask-btn text-M"
-                                    onClick={addSubtask}
-                                >
-                                    + Add New Subtask
-                                </button>
                             </div>
+                            <button
+                                type="button"
+                                className="add-list-item-btn text-M"
+                                onClick={addSubtask}
+                            >
+                                + Add New Subtask
+                            </button>
                         </div>
                         <div className="input-item">
                             <label htmlFor="status" className="text-M grey-text">
@@ -208,6 +178,7 @@ const AddEditTask = ({closeTaskModal, isEditMode, task, columnName, taskIndex}: 
                             </button>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>
