@@ -21,7 +21,7 @@ const Header = () => {
 	const board = activeBoardId ? boards[activeBoardId] : null;
 
 	// Modals
-	const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
+	const [isEllipsisMenuOpen, setIsEllipsisMenuOpen] = useState(false);
 	const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 	const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 	const [isEditBoardModalOpen, setIsEditBoardModalOpen] = useState(false);
@@ -48,19 +48,19 @@ const Header = () => {
 				<div
 					className="elipsis-container"
 					onClick={() => {
-						setIsElipsisMenuOpen(!isElipsisMenuOpen);
+						setIsEllipsisMenuOpen(!isEllipsisMenuOpen);
 					}}
 				>
 					<img className="elipsis-btn" src={Ellipsis} alt="edit or delete board" />
 				</div>
-				{isElipsisMenuOpen && (
+				{isEllipsisMenuOpen && (
 					<EllipseMenu
 						type="board"
 						item={board!}
 						id={activeBoardId!}
 						onEdit={() => {
 							setIsEditBoardModalOpen(true);
-							setIsElipsisMenuOpen(false);
+							setIsEllipsisMenuOpen(false);
 						}}
 					/>
 				)}
