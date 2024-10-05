@@ -68,7 +68,7 @@ const Header = () => {
 					<AddEditTask closeTaskModal={() => setIsAddTaskModalOpen(!isAddTaskModalOpen)} isEditMode={false} />
 				)}
 				{isEditBoardModalOpen && (
-					<AddEditBoard closeModal={() => setIsEditBoardModalOpen(false)} isEditMode={true} board={board!} />
+					<AddEditBoard closeModal={() => setIsEditBoardModalOpen(false)} isEditMode={true} boardId={activeBoardId!} />
 				)}
 			</header>
 		</div>
