@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, ReactNode } from 'react';
-import { appReducer, AppState, initialState } from '../reducers/AppReducer';
+import {appReducer, AppState, initialState} from '../reducers/AppReducer';
 
 
 interface IChildren {
@@ -8,7 +8,6 @@ interface IChildren {
 
 interface AppContextType {
     state: AppState;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     dispatch: React.Dispatch<any>;
 }
 

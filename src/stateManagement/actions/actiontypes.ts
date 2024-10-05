@@ -1,66 +1,63 @@
-import {Board, Column, Task} from "../../types/kanbanTypes";
+import { Board, Column, Task } from "../../types/kanbanTypes";
 
-export const SET_ACTIVE_BOARD_INDEX = "SET_ACTIVE_BOARD_INDEX";
+// Action Type Constants
+export const SET_ACTIVE_BOARD_ID = "SET_ACTIVE_BOARD_ID";
 export const SET_TASK_VIEW = "SET_TASK_VIEW";
 export const SET_SUBTASK_STATE = "SET_SUBTASK_STATE";
 export const MOVE_TASK = "MOVE_TASK";
 export const ADD_TASK = "ADD_TASK";
-export const UPDATE_TASK = "UPDATE_TASK";
+export const EDIT_TASK = "EDIT_TASK";
 export const DELETE_TASK = "DELETE_TASK";
 export const ADD_BOARD = "ADD_BOARD";
 export const EDIT_BOARD = "EDIT_BOARD";
 export const DELETE_BOARD = "DELETE_BOARD";
+export const ADD_COLUMN = "ADD_COLUMN";
+export const EDIT_COLUMN = "EDIT_COLUMN";
+export const DELETE_COLUMN = "DELETE_COLUMN";
 
-export interface SetActiveBoardIndexAction {
-    type: typeof SET_ACTIVE_BOARD_INDEX;
-    payload: number;
+// Action Interfaces
+
+export interface SetActiveBoardIdAction {
+    type: typeof SET_ACTIVE_BOARD_ID;
+    payload: string;
 }
 
 export interface SetTaskViewAction {
     type: typeof SET_TASK_VIEW;
-    payload: {
-        task: Task | null;
-        column: Column | null;
-    };
+    payload: string | null;
 }
 
-export interface SetSubtaskState {
+export interface SetSubtaskStateAction {
     type: typeof SET_SUBTASK_STATE;
     payload: {
-        boardIndex: number;
-        columnIndex: number;
-        taskIndex: number;
-        subtaskIndex: number;
+        subtaskId: string;
         isCompleted: boolean;
     };
 }
 
-export interface MoveTask {
+export interface MoveTaskAction {
     type: typeof MOVE_TASK;
     payload: {
-        boardIndex: number;
-        fromColumnIndex: number;
-        toColumnIndex: number;
-        taskIndex: number;
+        taskId: string;
+        fromColumnId: string;
+        toColumnId: string;
     };
 }
 
 export interface AddTaskAction {
     type: typeof ADD_TASK;
-    payload: {
-        boardIndex: number;
-        columnName: string;
-        newTask: Task;
-    };
+    payload: Task;
 }
 
-export interface UpdateTaskAction {
-    type: typeof UPDATE_TASK;
+export interface EditTaskAction {
+    type: typeof EDIT_TASK;
+    payload: Task;
+}
+
+export interface DeleteTaskAction {
+    type: typeof DELETE_TASK;
     payload: {
-        boardIndex: number;
-        columnName: string;
-        taskIndex: number;
-        updatedTask: Task;
+        taskId: string;
     };
 }
 
@@ -71,26 +68,45 @@ export interface AddBoardAction {
 
 export interface EditBoardAction {
     type: typeof EDIT_BOARD;
-    payload: {
-        boardIndex: number;
-        updatedBoard: Board;
-    };
+    payload: Board;
 }
 
 export interface DeleteBoardAction {
     type: typeof DELETE_BOARD;
     payload: {
-        boardIndex: number;
+        boardId: string;
+    };
+}
+
+export interface AddColumnAction {
+    type: typeof ADD_COLUMN;
+    payload: Column;
+}
+
+
+export interface EditColumnAction {
+    type: typeof EDIT_COLUMN;
+    payload: Column;
+}
+
+export interface DeleteColumnAction {
+    type: typeof DELETE_COLUMN;
+    payload: {
+        columnId: string;
     };
 }
 
 export type Action =
-    SetActiveBoardIndexAction
+    | SetActiveBoardIdAction
     | SetTaskViewAction
-    | SetSubtaskState
-    | MoveTask
+    | SetSubtaskStateAction
+    | MoveTaskAction
     | AddTaskAction
-    | UpdateTaskAction
+    | EditTaskAction
+    | DeleteTaskAction
     | AddBoardAction
     | EditBoardAction
-    | DeleteBoardAction;
+    | DeleteBoardAction
+    | AddColumnAction
+    | EditColumnAction
+    | DeleteColumnAction;

@@ -1,135 +1,120 @@
-import React, {useContext, useEffect, useState} from "react";
+// ViewTask.tsx
+import React, { useContext, useState } from "react";
 import Ellipsis from "../../assets/icon-vertical-ellipsis.svg";
 import IconCheck from "../../assets/icon-check.svg";
-import {Column, Task} from "../../types/kanbanTypes";
 import "../../styles/ViewTask.css";
-import {SET_SUBTASK_STATE, MOVE_TASK} from "../../stateManagement/actions/actiontypes";
-import {AppContext} from "../../stateManagement/context/AppContext";
-import ElipseMenu from "./ElipseMenu.tsx";
-import AddEditTask from "./AddEditTask.tsx";
+import { SET_SUBTASK_STATE, MOVE_TASK } from "../../stateManagement/actions/actiontypes";
+import { AppContext } from "../../stateManagement/context/AppContext";
+import EllipseMenu from "./EllipseMenu";
+import AddEditTask from "./AddEditTask";
 
 interface ViewTaskProps {
-    currTask: Task;
-    currColumn: Column;
+    taskId: string;
     closeTaskModal: () => void;
 }
-const ViewTask = ({currTask, closeTaskModal}: ViewTaskProps) => {
-    const {state, dispatch} = useContext(AppContext);
-    const {boards, activeBoardIndex} = state;
-    const boardIndex = activeBoardIndex!;
 
-    const [localTask, setLocalTask] = useState(currTask);
-    const [selectedColumn, setSelectedColumn] = useState("");
+const ViewTask = ({ taskId, closeTaskModal }: ViewTaskProps) => {
+    const { state, dispatch } = useContext(AppContext);
+    const { tasks, columns, subtasks } = state;
+    const { activeBoardId } = state.ui;
+
+    const task = tasks[taskId];
+    const column = columns[task.columnId];
+
+    if (!task || !column) {
+        // Handle error or loading state
+        console.error("Task or column not found");
+        console.log("Task", task);
+        console.log("Column", column);
+        return null;
+    }
+    const subtasksForTask = Object.values(subtasks).filter((subtask) => subtask.taskId === taskId);
+
+    const numCompletedSubtasks = subtasksForTask.filter((subtask) => subtask.isCompleted).length;
+
+    const [selectedColumnId, setSelectedColumnId] = useState(task.columnId);
     const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
-    const [columnIndex, setColumnIndex] = useState<number>(-1);
-    const [taskIndex, setTaskIndex] = useState<number>(-1);
     const [isEditMode, setIsEditMode] = useState(false);
 
-    useEffect(() => {
-        let foundColumnIndex = -1;
-        let foundTaskIndex = -1;
-
-        for (let i = 0; i < boards[boardIndex].columns.length; i++) {
-            const column = boards[boardIndex].columns[i];
-            const index = column.tasks.findIndex((task) => task.title === localTask.title);
-            if (index !== -1) {
-                foundColumnIndex = i;
-                foundTaskIndex = index;
-                break;
-            }
+    const handleToggleSubtask = (subtaskId: string) => {
+        const subtask = subtasks[subtaskId];
+        if (subtask) {
+            dispatch({
+                type: SET_SUBTASK_STATE,
+                payload: {
+                    subtaskId,
+                    isCompleted: !subtask.isCompleted,
+                },
+            });
         }
-
-        if (foundColumnIndex !== -1 && foundTaskIndex !== -1) {
-            setColumnIndex(foundColumnIndex);
-            setTaskIndex(foundTaskIndex);
-            setLocalTask(state.boards[boardIndex].columns[foundColumnIndex].tasks[foundTaskIndex]);
-            setSelectedColumn(boards[boardIndex].columns[foundColumnIndex].name);
-        }
-    }, [state, boardIndex, localTask.title, boards]);
-
-    const handleToggleSubtask = (subtaskIndex: number) => {
-        const isCompleted = !localTask.subtasks[subtaskIndex].isCompleted;
-        dispatch({
-            type: SET_SUBTASK_STATE,
-            payload: {
-                boardIndex,
-                columnIndex,
-                taskIndex,
-                subtaskIndex,
-                isCompleted,
-            },
-        });
     };
 
     const handleColumnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newColumnName = e.target.value;
+        const newColumnId = e.target.value;
 
-
-        // Find the index of the new column
-        const toColumnIndex = boards[boardIndex].columns.findIndex((col) => col.name === newColumnName);
-
-        if (toColumnIndex !== -1 && columnIndex !== -1) {
+        if (newColumnId !== task.columnId) {
             // Dispatch the move task action
             dispatch({
                 type: MOVE_TASK,
                 payload: {
-                    boardIndex,
-                    fromColumnIndex: columnIndex,
-                    toColumnIndex,
-                    taskIndex,
+                    taskId,
+                    fromColumnId: task.columnId,
+                    toColumnId: newColumnId,
                 },
             });
+            setSelectedColumnId(newColumnId);
         }
-
-        setSelectedColumn(newColumnName);
     };
 
-    const numCompletedSubtasks = localTask.subtasks.filter((subtask) => subtask.isCompleted).length;
+    // Get columns for the active board
+    const columnsForBoard = Object.values(columns).filter((col) => col.boardId === activeBoardId);
 
     return (
         <>
             <div className="modal-overlay" onClick={closeTaskModal}>
                 <div className="modal-card" onClick={(e) => e.stopPropagation()}>
                     <div className="task-title-container">
-                        <h2 className="task-title heading-L">{localTask.title}</h2>
+                        <h2 className="task-title heading-L">{task.title}</h2>
                         <div
                             className="elipsis-container"
                             onClick={() => {
                                 setIsElipsisMenuOpen(!isElipsisMenuOpen);
                             }}
                         >
-                            <img className="elipsis-btn" src={Ellipsis} alt="edit or delete task"/>
+                            <img className="elipsis-btn" src={Ellipsis} alt="edit or delete task" />
                         </div>
                     </div>
-                    {isElipsisMenuOpen && <ElipseMenu
-                        type={"task"}
-                        item={localTask}
-                        index={activeBoardIndex!}
-                        onEdit={() => {
-                            setIsEditMode(true);
-                            setIsElipsisMenuOpen(false);
-                        }}
-                    />}
-                    <p className="task-description body-L">{localTask.description}</p>
+                    {isElipsisMenuOpen && (
+                        <EllipseMenu
+                            type="task"
+                            item={task}
+                            id={taskId}
+                            onEdit={() => {
+                                setIsEditMode(true);
+                                setIsElipsisMenuOpen(false);
+                            }}
+                        />
+                    )}
+                    <p className="task-description body-L">{task.description}</p>
                     <p className="sub-task-count text-M">
-                        Subtasks ({numCompletedSubtasks} of {localTask.subtasks.length})
+                        Subtasks ({numCompletedSubtasks} of {subtasksForTask.length})
                     </p>
 
                     <ul className="subtasks-list">
-                        {localTask.subtasks.map((subtask, index) => (
-                            <li key={index} className="subtask-item">
+                        {subtasksForTask.map((subtask) => (
+                            <li key={subtask.id} className="subtask-item">
                                 <input
                                     type="checkbox"
                                     checked={subtask.isCompleted}
-                                    onChange={() => handleToggleSubtask(index)}
+                                    onChange={() => handleToggleSubtask(subtask.id)}
                                     className="subtask-checkbox"
-                                    id={`subtask-${index}`}
+                                    id={`subtask-${subtask.id}`}
                                 />
                                 <label
-                                    htmlFor={`subtask-${index}`}
+                                    htmlFor={`subtask-${subtask.id}`}
                                     className={`subtask-label text-M ${subtask.isCompleted ? "completed" : ""}`}
                                 >
-                                    {subtask.isCompleted && <img src={IconCheck} alt="Check" className="icon-check"/>}
+                                    {subtask.isCompleted && <img src={IconCheck} alt="Check" className="icon-check" />}
                                     {subtask.title}
                                 </label>
                             </li>
@@ -140,11 +125,11 @@ const ViewTask = ({currTask, closeTaskModal}: ViewTaskProps) => {
                         <select
                             id="column-select"
                             className="select-status text-L"
-                            value={selectedColumn}
+                            value={selectedColumnId}
                             onChange={handleColumnChange}
                         >
-                            {boards[activeBoardIndex!].columns.map((col, index) => (
-                                <option className="status-options" key={index} value={col.name}>
+                            {columnsForBoard.map((col) => (
+                                <option className="status-options" key={col.id} value={col.id}>
                                     {col.name}
                                 </option>
                             ))}
@@ -156,9 +141,7 @@ const ViewTask = ({currTask, closeTaskModal}: ViewTaskProps) => {
                 <AddEditTask
                     closeTaskModal={() => setIsEditMode(false)}
                     isEditMode={true}
-                    task={localTask}
-                    columnName={selectedColumn}
-                    taskIndex={taskIndex}
+                    taskId={taskId}
                 />
             )}
         </>

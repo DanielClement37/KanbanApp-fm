@@ -1,93 +1,136 @@
-import React, {useContext, useState} from "react";
+// AddEditTask.tsx
+import React, { useContext, useState, useEffect } from "react";
 import "../../styles/AddEditForm.css";
-import {AppContext} from "../../stateManagement/context/AppContext";
-import {Task, Subtask} from "../../types/kanbanTypes";
-import {ADD_TASK, UPDATE_TASK} from "../../stateManagement/actions/actiontypes";
-import AddEditListItem from "../FormComponents/AddEditListItem.tsx";
+import { AppContext } from "../../stateManagement/context/AppContext";
+import { Task, Subtask } from "../../types/kanbanTypes";
+import { ADD_TASK, EDIT_TASK } from "../../stateManagement/actions/actiontypes";
+import AddEditListItem from "../FormComponents/AddEditListItem";
+import {generateUniqueId} from "../../Helpers/generateUUID.ts";
 
 interface AddEditTaskProps {
     closeTaskModal: () => void;
     isEditMode: boolean;
-    task?: Task;
-    columnName?: string;
-    taskIndex?: number;
+    taskId?: string;
 }
 
+const AddEditTask = ({ closeTaskModal, isEditMode, taskId }: AddEditTaskProps) => {
+    const { state, dispatch } = useContext(AppContext);
+    const { tasks, subtasks, columns } = state;
+    const { activeBoardId } = state.ui;
 
-const AddEditTask = ({closeTaskModal, isEditMode, task, columnName, taskIndex}: AddEditTaskProps) => {
-    const {state, dispatch} = useContext(AppContext);
-    const {boards, activeBoardIndex} = state;
+    const columnsForBoard = Object.values(columns).filter((col) => col.boardId === activeBoardId);
 
-    const initialTaskState: Task = isEditMode && task ? task : {
-        title: '',
-        description: '',
-        status: boards[activeBoardIndex!].columns[0].name,
-        subtasks: [],
-    };
+    const initialTaskState: Task = isEditMode && taskId && tasks[taskId]
+        ? tasks[taskId]
+        : {
+            id: '', // Generate new ID when adding
+            title: '',
+            description: '',
+            columnId: columnsForBoard[0]?.id || '',
+        };
 
     const [localTask, setLocalTask] = useState<Task>(initialTaskState);
-    const [subtasks, setSubtasks] = useState<Subtask[]>(
-        localTask.subtasks.length > 0 ? localTask.subtasks : [
-            {title: '', isCompleted: false},
-            {title: '', isCompleted: false},
-        ]
-    );
+    const [subtasksForTask, setSubtasksForTask] = useState<Subtask[]>([]);
+
+    useEffect(() => {
+        if (isEditMode && taskId) {
+            const existingSubtasks = Object.values(subtasks).filter((subtask) => subtask.taskId === taskId);
+            setSubtasksForTask(existingSubtasks);
+        } else {
+            setSubtasksForTask([
+                { id: '', title: '', isCompleted: false, taskId: '' },
+                { id: '', title: '', isCompleted: false, taskId: '' },
+            ]);
+        }
+    }, [isEditMode, taskId, subtasks]);
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLocalTask({...localTask, title: e.target.value});
+        setLocalTask({ ...localTask, title: e.target.value });
     };
 
     const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setLocalTask({...localTask, description: e.target.value});
+        setLocalTask({ ...localTask, description: e.target.value });
     };
 
     const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setLocalTask({...localTask, status: e.target.value});
+        const newColumnId = e.target.value;
+        setLocalTask({ ...localTask, columnId: newColumnId });
     };
 
     const handleSubtaskChange = (index: number, value: string) => {
-        const newSubtasks = [...subtasks];
+        const newSubtasks = [...subtasksForTask];
         newSubtasks[index].title = value;
-        setSubtasks(newSubtasks);
+        setSubtasksForTask(newSubtasks);
     };
 
     const addSubtask = () => {
-        setSubtasks([...subtasks, {title: '', isCompleted: false}]);
+        setSubtasksForTask([...subtasksForTask, { id: '', title: '', isCompleted: false, taskId: '' }]);
     };
 
     const removeSubtask = (index: number) => {
-        const newSubtasks = subtasks.filter((_, i) => i !== index);
-        setSubtasks(newSubtasks);
+        const newSubtasks = subtasksForTask.filter((_, i) => i !== index);
+        setSubtasksForTask(newSubtasks);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        const filteredSubtasks = subtasks.filter(subtask => subtask.title.trim() !== '');
+        const filteredSubtasks = subtasksForTask.filter((subtask) => subtask.title.trim() !== '');
 
-        const updatedTask: Task = {
-            ...localTask,
-            subtasks: filteredSubtasks,
-        };
-
-        if (isEditMode) {
+        if (isEditMode && taskId) {
+            // Update task
             dispatch({
-                type: UPDATE_TASK,
+                type: EDIT_TASK,
                 payload: {
-                    boardIndex: activeBoardIndex!,
-                    columnName: columnName!,
-                    taskIndex: taskIndex!,
-                    updatedTask,
+                    ...localTask,
                 },
             });
+
+            // Update subtasks (you may need to implement ADD_SUBTASK and EDIT_SUBTASK actions)
+            // For simplicity, you can dispatch actions to update each subtask
+            filteredSubtasks.forEach((subtask) => {
+                if (subtask.id) {
+                    dispatch({
+                        type: 'EDIT_SUBTASK',
+                        payload: subtask,
+                    });
+                } else {
+                    const newSubtaskId = generateUniqueId();
+                    dispatch({
+                        type: 'ADD_SUBTASK',
+                        payload: {
+                            ...subtask,
+                            id: newSubtaskId,
+                            taskId: taskId,
+                        },
+                    });
+                }
+            });
         } else {
+            // Add new task
+            const newTaskId = generateUniqueId();
+            const newTask: Task = {
+                ...localTask,
+                id: newTaskId,
+            };
+
             dispatch({
                 type: ADD_TASK,
-                payload: {
-                    boardIndex: activeBoardIndex!,
-                    columnName: localTask.status,
-                    newTask: updatedTask,
-                },
+                payload: newTask,
+            });
+
+            // Add new subtasks
+            filteredSubtasks.forEach((subtask) => {
+                const newSubtaskId = generateUniqueId();
+                const newSubtask: Subtask = {
+                    ...subtask,
+                    id: newSubtaskId,
+                    taskId: newTaskId,
+                };
+                dispatch({
+                    type: 'ADD_SUBTASK',
+                    payload: newSubtask,
+                });
             });
         }
 
@@ -132,11 +175,9 @@ const AddEditTask = ({closeTaskModal, isEditMode, task, columnName, taskIndex}: 
                             />
                         </div>
                         <div className="list-form-container">
-                            <label className="text-M grey-text">
-                                Subtasks
-                            </label>
+                            <label className="text-M grey-text">Subtasks</label>
                             <div className="list-input-container">
-                                {subtasks.map((subtask, index) => (
+                                {subtasksForTask.map((subtask, index) => (
                                     <AddEditListItem
                                         key={index}
                                         index={index}
@@ -162,11 +203,11 @@ const AddEditTask = ({closeTaskModal, isEditMode, task, columnName, taskIndex}: 
                             <select
                                 id="status"
                                 className="input-field text-L"
-                                value={localTask.status}
+                                value={localTask.columnId}
                                 onChange={handleStatusChange}
                             >
-                                {boards[activeBoardIndex!].columns.map((col, index) => (
-                                    <option key={index} value={col.name}>
+                                {columnsForBoard.map((col) => (
+                                    <option key={col.id} value={col.id}>
                                         {col.name}
                                     </option>
                                 ))}
@@ -178,7 +219,6 @@ const AddEditTask = ({closeTaskModal, isEditMode, task, columnName, taskIndex}: 
                             </button>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>

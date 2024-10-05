@@ -9,39 +9,41 @@ import ViewTask from "./Modals/ViewTask";
 
 const Boards = () => {
     const {state, dispatch} = useContext(AppContext);
-    const {boards, activeBoardIndex, activeTaskView} = state;
-    const activeBoard = activeBoardIndex !== null ? boards[activeBoardIndex] : null;
+    const { columns} = state;
+    const {activeBoardId, activeTaskId} = state.ui;
+    const columnsForActiveBoard = activeBoardId
+        ? Object.values(columns).filter((column) => column.boardId === activeBoardId)
+        : [];
 
-    const openTaskModal = (task: Task, column: Column) => {
+    const openTaskModal = (taskId: string) => {
         dispatch({
             type: SET_TASK_VIEW,
-            payload: {
-                task,
-                column,
-            },
+            payload: taskId,
         });
     };
 
     const closeTaskModal = () => {
         dispatch({
             type: SET_TASK_VIEW,
-            payload: {
-                task: null,
-                column: null,
-            },
+            payload: null,
         });
     };
 
+
     return (
         <div className="board-container">
-            {activeBoard && activeBoard.columns.map((column, index) => <BoardColumn key={index} column={column}
-                                                                                    openTaskModal={openTaskModal}/>)}
+            {columnsForActiveBoard.map((column) => (
+                <BoardColumn key={column.id} column={column} openTaskModal={openTaskModal}/>
+            ))}
             <div className="add-column-btn">
                 <h2 className="heading-XL">+ New Column</h2>
             </div>
-            {activeTaskView.task && activeTaskView.column &&
-                <ViewTask currTask={activeTaskView.task} currColumn={activeTaskView.column}
-                          closeTaskModal={closeTaskModal}/>}
+            {activeTaskId && (
+                <ViewTask
+                    taskId={activeTaskId}
+                    closeTaskModal={closeTaskModal}
+                />
+            )}
         </div>
     );
 };

@@ -1,15 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from "react";
-import { Column, Task } from "../types/kanbanTypes";
+import React, { useState, useContext } from "react";
 import "../styles/Board.css";
 import TaskCard from "./TaskCard";
+import { AppContext } from "../stateManagement/context/AppContext";
+import { Column } from "../types/kanbanTypes";
 
 type BoardColumnProps = {
 	column: Column;
-	openTaskModal: (task: Task, column: Column) => void;
+	openTaskModal: (taskId: string) => void;
 };
 
 const BoardColumn = ({ column, openTaskModal }: BoardColumnProps) => {
+	const { state } = useContext(AppContext);
+	const { tasks } = state;
+
+	const tasksForColumn = Object.values(tasks).filter((task) => task.columnId === column.id);
+
 	const generateRandomColor = () => {
 		const letters = "0123456789ABCDEF";
 		let color = "#";
@@ -26,11 +31,11 @@ const BoardColumn = ({ column, openTaskModal }: BoardColumnProps) => {
 			<div className="column-name-container">
 				<div className="column-color" style={{ backgroundColor: columnColor }} />
 				<h4 className="column-name text-M ">
-					{column.name} ({column.tasks.length})
+					{column.name} ({tasksForColumn.length})
 				</h4>
 			</div>
-			{column.tasks.map((task, index) => (
-				<TaskCard key={index} task={task} openTaskModal={() => openTaskModal(task, column)} />
+			{tasksForColumn.map((task) => (
+				<TaskCard key={task.id} task={task} openTaskModal={() => openTaskModal(task.id)} />
 			))}
 		</div>
 	);

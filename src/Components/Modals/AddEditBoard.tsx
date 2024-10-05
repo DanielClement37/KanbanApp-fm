@@ -1,67 +1,119 @@
-import React, { useContext, useState } from 'react';
-import { Board } from "../../types/kanbanTypes";
+// AddEditBoard.tsx
+import React, { useContext, useState, useEffect } from 'react';
+import { Board, Column } from "../../types/kanbanTypes";
 import { AppContext } from "../../stateManagement/context/AppContext";
-import AddEditListItem from "../FormComponents/AddEditListItem.tsx";
-
+import AddEditListItem from "../FormComponents/AddEditListItem";
+import { ADD_BOARD, EDIT_BOARD, ADD_COLUMN, EDIT_COLUMN } from "../../stateManagement/actions/actiontypes";
+import {generateUniqueId} from "../../Helpers/generateUUID.ts";
 
 interface AddEditBoardProps {
     closeModal: () => void;
     isEditMode: boolean;
-    board?: Board;
+    boardId?: string;
 }
 
-const AddEditBoard = ({ closeModal, isEditMode, board }: AddEditBoardProps) => {
+const AddEditBoard = ({ closeModal, isEditMode, boardId }: AddEditBoardProps) => {
     const { state, dispatch } = useContext(AppContext);
-    const { activeBoardIndex } = state;
+    const { boards, columns } = state;
 
-
-    const initialBoardState: Board = isEditMode && board ? board : {
-        name: '',
-        columns: [
-            { name: '', tasks: [] }
-        ],
-    };
+    const initialBoardState: Board = isEditMode && boardId && boards[boardId]
+        ? boards[boardId]
+        : {
+            id: '', // Generate new ID when adding
+            name: '',
+        };
 
     const [localBoard, setLocalBoard] = useState<Board>(initialBoardState);
+    const [columnsForBoard, setColumnsForBoard] = useState<Column[]>([]);
+
+    useEffect(() => {
+        if (isEditMode && boardId) {
+            const existingColumns = Object.values(columns).filter((col) => col.boardId === boardId);
+            setColumnsForBoard(existingColumns);
+        } else {
+            setColumnsForBoard([
+                { id: '', name: '', boardId: '' },
+            ]);
+        }
+    }, [isEditMode, boardId, columns]);
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLocalBoard({ ...localBoard, name: e.target.value });
     };
 
     const handleColumnChange = (index: number, value: string) => {
-        const newColumns = [...localBoard.columns];
+        const newColumns = [...columnsForBoard];
         newColumns[index].name = value;
-        setLocalBoard({ ...localBoard, columns: newColumns });
+        setColumnsForBoard(newColumns);
     };
 
     const addColumn = () => {
-        setLocalBoard({
-            ...localBoard,
-            columns: [...localBoard.columns, { name: '', tasks: [] }],
-        });
+        setColumnsForBoard([...columnsForBoard, { id: '', name: '', boardId: '' }]);
     };
 
     const handleColumnRemove = (index: number) => {
-        const newColumns = localBoard.columns.filter((_, i) => i !== index);
-        setLocalBoard({ ...localBoard, columns: newColumns });
+        const newColumns = columnsForBoard.filter((_, i) => i !== index);
+        setColumnsForBoard(newColumns);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (isEditMode) {
+
+        if (isEditMode && boardId) {
+            // Update board
             dispatch({
-                type: 'EDIT_BOARD',
+                type: EDIT_BOARD,
                 payload: {
-                    boardIndex: activeBoardIndex!,
-                    board: localBoard,
+                    ...localBoard,
                 },
             });
+
+            // Update columns
+            columnsForBoard.forEach((col) => {
+                if (col.id) {
+                    dispatch({
+                        type: EDIT_COLUMN,
+                        payload: col,
+                    });
+                } else {
+                    const newColumnId = generateUniqueId();
+                    dispatch({
+                        type: ADD_COLUMN,
+                        payload: {
+                            ...col,
+                            id: newColumnId,
+                            boardId,
+                        },
+                    });
+                }
+            });
         } else {
+            // Add new board
+            const newBoardId = generateUniqueId();
+            const newBoard: Board = {
+                ...localBoard,
+                id: newBoardId,
+            };
+
             dispatch({
-                type: 'ADD_BOARD',
-                payload: localBoard,
+                type: ADD_BOARD,
+                payload: newBoard,
+            });
+
+            // Add new columns
+            columnsForBoard.forEach((col) => {
+                const newColumnId = generateUniqueId();
+                dispatch({
+                    type: ADD_COLUMN,
+                    payload: {
+                        ...col,
+                        id: newColumnId,
+                        boardId: newBoardId,
+                    },
+                });
             });
         }
+
         closeModal();
     };
 
@@ -91,11 +143,9 @@ const AddEditBoard = ({ closeModal, isEditMode, board }: AddEditBoardProps) => {
                             />
                         </div>
                         <div className="list-form-container">
-                            <label className="text-M grey-text">
-                                Columns
-                            </label>
+                            <label className="text-M grey-text">Columns</label>
                             <div className="list-input-container">
-                                {localBoard.columns.map((column, index) => (
+                                {columnsForBoard.map((column, index) => (
                                     <AddEditListItem
                                         key={index}
                                         index={index}

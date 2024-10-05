@@ -2,14 +2,14 @@ import React from 'react';
 import { Board, Task } from '../../types/kanbanTypes';
 import "../../styles/Header.css";
 
-type ElipseMenuProps = {
+type EllipseMenuProps = {
     type: 'board' | 'task';
     item: Board | Task;
-    index: number;
+    id: string | null;
     onEdit: () => void;
 };
 
-const ElipseMenu = ({ type, onEdit }: ElipseMenuProps) => {
+const EllipseMenu = ({ type, onEdit }: EllipseMenuProps) => {
     return (
         <div className='elipse-menu-container text-L'>
             <p className='grey-text' onClick={onEdit}>Edit {type}</p>
@@ -18,4 +18,4 @@ const ElipseMenu = ({ type, onEdit }: ElipseMenuProps) => {
     );
 };
 
-export default ElipseMenu;
+export default EllipseMenu;
