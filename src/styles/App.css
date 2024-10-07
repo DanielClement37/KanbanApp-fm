@@ -27,3 +27,20 @@
 .btn:hover {
 	background: var(--purple-hover);
 }
+
+.btn-red{
+	background-color: var(--red);
+}
+
+.btn-red:hover{
+	background-color: var(--red-hover);
+}
+
+.btn-grey{
+	background-color: rgba(var(--task-shadow), 0.1);
+	color: var(--main-purple);
+}
+
+.btn-grey:hover{
+	background-color: rgba(var(--task-shadow), 0.25);
+}

@@ -1,0 +1,18 @@
+.modal-content-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 1.5rem;
+}
+
+.modal-btn-container{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.modal-btn-container .btn{
+    width: 200px;
+}
+

@@ -1,0 +1,46 @@
+.ellipsis-container{
+    height: 32px;
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.ellipsis-container:hover{
+    background-color: var(--light-grey);
+    border-radius: 50%;
+}
+
+
+.ellipsis-btn {
+    height: 16px;
+    cursor: pointer;
+}
+
+.ellipse-menu-container{
+    width: 12rem;
+    height: 5.875rem;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(var(--task-shadow), 0.1015);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding-left: 1rem;
+    position: absolute;
+}
+
+.modal-card .ellipse-menu-container {
+
+    top: 20%;
+    right: -16%;
+    cursor: pointer;
+    z-index: 3;
+}
+
+header .ellipse-menu-container {
+    top: 90%;
+    right: 2%;
+    cursor: pointer;
+}

@@ -29,7 +29,6 @@ const Boards = () => {
         });
     };
 
-
     return (
         <div className="board-container">
             {columnsForActiveBoard.map((column) => (

@@ -1,10 +1,11 @@
 // ViewTask.tsx
-import React, { useContext, useState } from "react";
+import React, {useContext, useState} from "react";
 import Ellipsis from "../../assets/icon-vertical-ellipsis.svg";
 import IconCheck from "../../assets/icon-check.svg";
 import "../../styles/ViewTask.css";
-import { SET_SUBTASK_STATE, MOVE_TASK } from "../../stateManagement/actions/actiontypes";
-import { AppContext } from "../../stateManagement/context/AppContext";
+import "../../styles/EllipseMenu.css"
+import {SET_SUBTASK_STATE, MOVE_TASK} from "../../stateManagement/actions/actiontypes";
+import {AppContext} from "../../stateManagement/context/AppContext";
 import EllipseMenu from "./EllipseMenu";
 import AddEditTask from "./AddEditTask";
 
@@ -13,19 +14,15 @@ interface ViewTaskProps {
     closeTaskModal: () => void;
 }
 
-const ViewTask = ({ taskId, closeTaskModal }: ViewTaskProps) => {
-    const { state, dispatch } = useContext(AppContext);
-    const { tasks, columns, subtasks } = state;
-    const { activeBoardId } = state.ui;
+const ViewTask = ({taskId, closeTaskModal}: ViewTaskProps) => {
+    const {state, dispatch} = useContext(AppContext);
+    const {tasks, columns, subtasks} = state;
+    const {activeBoardId} = state.ui;
 
     const task = tasks[taskId];
     const column = columns[task.columnId];
 
     if (!task || !column) {
-        // Handle error or loading state
-        console.error("Task or column not found");
-        console.log("Task", task);
-        console.log("Column", column);
         return null;
     }
     const subtasksForTask = Object.values(subtasks).filter((subtask) => subtask.taskId === taskId);
@@ -33,7 +30,7 @@ const ViewTask = ({ taskId, closeTaskModal }: ViewTaskProps) => {
     const numCompletedSubtasks = subtasksForTask.filter((subtask) => subtask.isCompleted).length;
 
     const [selectedColumnId, setSelectedColumnId] = useState(task.columnId);
-    const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
+    const [isEllipsisMenuOpen, setIsEllipsisMenuOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
 
     const handleToggleSubtask = (subtaskId: string) => {
@@ -76,22 +73,25 @@ const ViewTask = ({ taskId, closeTaskModal }: ViewTaskProps) => {
                     <div className="task-title-container">
                         <h2 className="task-title heading-L">{task.title}</h2>
                         <div
-                            className="elipsis-container"
+                            className="ellipsis-container"
                             onClick={() => {
-                                setIsElipsisMenuOpen(!isElipsisMenuOpen);
+                                setIsEllipsisMenuOpen(!isEllipsisMenuOpen);
                             }}
                         >
-                            <img className="elipsis-btn" src={Ellipsis} alt="edit or delete task" />
+                            <img className="ellipsis-btn" src={Ellipsis} alt="edit or delete task"/>
                         </div>
                     </div>
-                    {isElipsisMenuOpen && (
+                    {isEllipsisMenuOpen && (
                         <EllipseMenu
                             type="task"
                             item={task}
                             id={taskId}
                             onEdit={() => {
                                 setIsEditMode(true);
-                                setIsElipsisMenuOpen(false);
+                                setIsEllipsisMenuOpen(false);
+                            }}
+                            onDelete={() => {
+                                console.log("Delete task");
                             }}
                         />
                     )}
@@ -114,7 +114,7 @@ const ViewTask = ({ taskId, closeTaskModal }: ViewTaskProps) => {
                                     htmlFor={`subtask-${subtask.id}`}
                                     className={`subtask-label text-M ${subtask.isCompleted ? "completed" : ""}`}
                                 >
-                                    {subtask.isCompleted && <img src={IconCheck} alt="Check" className="icon-check" />}
+                                    {subtask.isCompleted && <img src={IconCheck} alt="Check" className="icon-check"/>}
                                     {subtask.title}
                                 </label>
                             </li>
