@@ -22,16 +22,15 @@ const ViewTask = ({taskId, closeTaskModal}: ViewTaskProps) => {
     const task = tasks[taskId];
     const column = columns[task.columnId];
 
+    const [selectedColumnId, setSelectedColumnId] = useState(task.columnId);
+    const [isEllipsisMenuOpen, setIsEllipsisMenuOpen] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
+
     if (!task || !column) {
         return null;
     }
     const subtasksForTask = Object.values(subtasks).filter((subtask) => subtask.taskId === taskId);
-
     const numCompletedSubtasks = subtasksForTask.filter((subtask) => subtask.isCompleted).length;
-
-    const [selectedColumnId, setSelectedColumnId] = useState(task.columnId);
-    const [isEllipsisMenuOpen, setIsEllipsisMenuOpen] = useState(false);
-    const [isEditMode, setIsEditMode] = useState(false);
 
     const handleToggleSubtask = (subtaskId: string) => {
         const subtask = subtasks[subtaskId];
@@ -63,6 +62,16 @@ const ViewTask = ({taskId, closeTaskModal}: ViewTaskProps) => {
         }
     };
 
+    const handleDeleteTask = () => {
+        dispatch({
+            type: "DELETE_TASK",
+            payload: {
+                taskId
+            }
+        });
+        closeTaskModal();
+    }
+
     // Get columns for the active board
     const columnsForBoard = Object.values(columns).filter((col) => col.boardId === activeBoardId);
 
@@ -91,7 +100,7 @@ const ViewTask = ({taskId, closeTaskModal}: ViewTaskProps) => {
                                 setIsEllipsisMenuOpen(false);
                             }}
                             onDelete={() => {
-                                console.log("Delete task");
+                                handleDeleteTask()
                             }}
                         />
                     )}

@@ -13,10 +13,11 @@ import {AppContext} from "../stateManagement/context/AppContext";
 import EllipseMenu from "./Modals/EllipseMenu";
 import AddEditTask from "./Modals/AddEditTask";
 import AddEditBoard from "./Modals/AddEditBoard";
+import {DELETE_BOARD, SET_ACTIVE_BOARD_ID} from "../stateManagement/actions/actiontypes.ts";
 
 const Header = () => {
     const isBiggerScreen = useMediaQuery({minWidth: 768}); // For Tablet and up
-    const {state} = useContext(AppContext);
+    const {state, dispatch} = useContext(AppContext);
     const {boards} = state;
     const {activeBoardId} = state.ui;
     const board = activeBoardId ? boards[activeBoardId] : null;
@@ -26,6 +27,21 @@ const Header = () => {
     const [isDropDownOpen, setIsDropDownOpen] = useState(false);
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
     const [isEditBoardModalOpen, setIsEditBoardModalOpen] = useState(false);
+
+    const handleDeleteBoard = () => {
+        dispatch({
+            type: DELETE_BOARD,
+            payload: {
+                boardId: activeBoardId!,
+            },
+        })
+
+        const newActiveBoardId = Object.keys(boards).filter((boardId) => boardId !== activeBoardId)[0];
+        dispatch({
+            type: SET_ACTIVE_BOARD_ID,
+            payload: newActiveBoardId
+        })
+    }
 
     return (
         <div className="header-container">
@@ -64,7 +80,8 @@ const Header = () => {
                             setIsEllipsisMenuOpen(false);
                         }}
                         onDelete={() => {
-                            console.log("Delete board");
+                            handleDeleteBoard();
+                            setIsEllipsisMenuOpen(false);
                         }}
                     />
                 )}
