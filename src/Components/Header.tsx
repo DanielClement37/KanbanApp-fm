@@ -14,6 +14,7 @@ import EllipseMenu from "./Modals/EllipseMenu";
 import AddEditTask from "./Modals/AddEditTask";
 import AddEditBoard from "./Modals/AddEditBoard";
 import {DELETE_BOARD, SET_ACTIVE_BOARD_ID} from "../stateManagement/actions/actiontypes.ts";
+import MobileBoardMenu from "./Modals/MobileBoardMenu.tsx";
 
 const Header = () => {
     const isBiggerScreen = useMediaQuery({minWidth: 768}); // For Tablet and up
@@ -52,7 +53,7 @@ const Header = () => {
                 <div onClick={() => setIsDropDownOpen(!isDropDownOpen)} className="board-name-container heading-L">
                     <h3>{board ? board.name : "No Board Selected"}</h3>
                     {!isBiggerScreen && (
-                        <img src={isDropDownOpen ? ChevronUp : ChevronDown} alt="dropdown opened/closed"/>
+                        <img src={isDropDownOpen ? ChevronUp : ChevronDown} alt="dropdown opened/closed" />
                     )}
                 </div>
                 <button
@@ -91,6 +92,9 @@ const Header = () => {
                 {isEditBoardModalOpen && (
                     <AddEditBoard closeModal={() => setIsEditBoardModalOpen(false)} isEditMode={true}
                                   boardId={activeBoardId!}/>
+                )}
+                {isDropDownOpen && (
+                    <MobileBoardMenu closeModal={()=>setIsDropDownOpen(false)}/>
                 )}
             </header>
         </div>

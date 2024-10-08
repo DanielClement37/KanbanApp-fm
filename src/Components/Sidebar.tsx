@@ -6,23 +6,7 @@ import IconShowSidebar from "../assets/icon-show-sidebar.svg";
 import "../styles/Sidebar.css";
 import {SET_ACTIVE_BOARD_ID} from "../stateManagement/actions/actiontypes";
 import AddEditBoard from "./Modals/AddEditBoard.tsx";
-
-interface SidebarItemProps {
-    icon: React.ReactNode;
-    label: string;
-    isSelected?: boolean;
-    isPurple?: boolean;
-    onClick?: () => void;
-}
-
-const SidebarItem: React.FC<SidebarItemProps> = ({icon, label, isSelected = false, isPurple = false, onClick}) => (
-    <div className={`sidebar-item ${isSelected ? "selected" : ""} ${isPurple ? "purple-text" : ""}`} onClick={onClick}>
-        <div className="item-content">
-            <div className="icon-container">{icon}</div>
-            <p className="item-label heading-M">{label}</p>
-        </div>
-    </div>
-);
+import {SidebarItem} from "./FormComponents/SidebarItems.tsx";
 
 const Sidebar: React.FC = () => {
     const {state, dispatch} = useContext(AppContext);
