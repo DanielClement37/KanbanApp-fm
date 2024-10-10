@@ -19,7 +19,7 @@ const AddEditBoard = ({ closeModal, isEditMode, boardId }: AddEditBoardProps) =>
     const initialBoardState: Board = isEditMode && boardId && boards[boardId]
         ? boards[boardId]
         : {
-            id: '', // Generate new ID when adding
+            id: '',
             name: '',
         };
 

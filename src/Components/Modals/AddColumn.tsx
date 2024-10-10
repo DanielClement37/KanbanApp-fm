@@ -47,7 +47,9 @@ const AddColumn = ({closeModal}: AddColumnProps) => {
                                 placeholder="e.g. To do"
                                 value={columnName}
                                 onChange={handleColumnNameChange}
+                                required={true}
                             />
+                            <span className="error-text">Can't be empty</span>
                         </div>
                         <div className="input-item">
                             <button type="submit" className="btn submit-btn text-L">

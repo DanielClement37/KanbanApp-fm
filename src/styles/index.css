@@ -16,6 +16,16 @@
     --red-hover: #FF9898;
     --task-shadow: 54, 78, 126;
 
+    --border-radius: 4px;
+    --input-height: 2.5rem;
+    --padding-small: 8px;
+    --padding-medium: 16px;
+    --padding-large: 25px;
+    --gap-small: 0.5rem;
+    --gap-medium: 0.75rem;
+    --gap-large: 1.5rem;
+    --error-font-size: 0.75rem;
+
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -23,10 +33,10 @@
 
 html,
 body {
-    min-height: 100%;
+    min-height: 100vh;
     max-width: 100%;
     width: 100%;
-    height: auto;
+    height: 100vh;
 }
 
 body {
@@ -42,11 +52,11 @@ body {
     font-family: "Plus Jakarta Sans", sans-serif;
 }
 
-#root {
+#root{
     background-color: var(--light-grey);
     max-width: 100%;
     width: 100%;
-    height: auto;
+    height: 100%;
 }
 
 .modal-overlay {

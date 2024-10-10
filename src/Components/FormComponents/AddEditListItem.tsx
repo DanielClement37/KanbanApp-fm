@@ -4,18 +4,26 @@ interface AddEditListItemProps {
     placeholder: string;
     onChange: (index: number, value: string) => void;
     onRemove: (index: number) => void;
+    onBlur: () => void;
+    error: string;
 }
 
-const AddEditListItem = ({ index, value, placeholder, onChange, onRemove }: AddEditListItemProps) => (
+const AddEditListItem = ({ index, value, placeholder, onChange, onRemove, onBlur, error }: AddEditListItemProps) => (
     <div className="list-input-item">
-        <input
-            type="text"
-            id={`item-${index}`}
-            className="input-field text-L"
-            placeholder={placeholder}
-            value={value}
-            onChange={(e) => onChange(index, e.target.value)}
-        />
+        <div className="input-field-container">
+            <input
+                type="text"
+                id={`item-${index}`}
+                className={`input-field text-L ${error ? 'input-field--error' : ''}`}
+                placeholder={placeholder}
+                value={value}
+                onChange={(e) => onChange(index, e.target.value)}
+                onBlur={onBlur}
+            />
+            {error && (
+                <span className="input-error-message text-M">{error}</span>
+            )}
+        </div>
         <svg
             className="icon icon-list-delete"
             width="15"
