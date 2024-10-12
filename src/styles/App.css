@@ -14,8 +14,8 @@
 }
 
 .btn {
-	background: var(--main-purple);
-	color: var(--white);
+	background: var(--color-primary);
+	color: var(--color-background-secondary);
 	border-radius: 24px;
 	padding: 10px 18px;
 	display: flex;
@@ -29,7 +29,7 @@
 }
 
 .btn-red{
-	background-color: var(--red);
+	background-color: var(--color-accent);
 }
 
 .btn-red:hover{
@@ -38,7 +38,7 @@
 
 .btn-grey{
 	background-color: rgba(var(--task-shadow), 0.1);
-	color: var(--main-purple);
+	color: var(--color-primary);
 }
 
 .btn-grey:hover{

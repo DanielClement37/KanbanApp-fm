@@ -25,20 +25,20 @@
     height: var(--input-height);
     padding: var(--padding-small) var(--padding-large) var(--padding-small) var(--padding-medium);
     padding-right: 100px;
-    border: 1px solid rgba(0, 0, 0, 0.25);
     border-radius: var(--border-radius);
-    background-color: var(--white);
+    border: 1px solid var(--color-border-light);
+    background-color: var(--color-background-secondary);
     outline: none;
     transition: border-color 0.2s;
 }
 
 .input-field:hover,
 .input-field:focus {
-    border-color: var(--main-purple);
+    border-color: var(--color-primary);
 }
 
 .input-field--error {
-    border-color: var(--red);
+    border-color: var(--color-accent);
 }
 
 /* Input Field Container */
@@ -53,7 +53,7 @@
     top: 50%;
     right: var(--padding-medium);
     transform: translateY(-50%);
-    color: var(--red);
+    color: var(--color-accent);
     pointer-events: none;
     font-size: var(--error-font-size);
     white-space: nowrap;
@@ -98,7 +98,7 @@
     top: 50%;
     right: var(--padding-medium);
     transform: translateY(-50%);
-    color: var(--red);
+    color: var(--color-accent);
     pointer-events: none;
     font-size: var(--error-font-size);
     white-space: nowrap;
@@ -111,7 +111,7 @@
 }
 
 .icon-list-delete:hover {
-    fill: var(--red);
+    fill: var(--color-accent);
 }
 
 /* Buttons */
@@ -130,17 +130,17 @@
 }
 
 .add-list-item-btn {
-    color: var(--main-purple);
-    background-color: rgba(99, 95, 199, 0.1);
+    color: var(--color-primary);
+    background-color: var(--color-primary-opacity-10);
 }
 
 .add-list-item-btn:hover {
-    background-color: rgba(99, 95, 199, 0.25);
+    background-color: var(--color-primary-opacity-25);
 }
 
 /* Error Message Below Field (if used elsewhere) */
 .error-message {
-    color: var(--red);
+    color: var(--color-accent);
     font-size: var(--error-font-size);
     margin-top: 0.25rem;
 }

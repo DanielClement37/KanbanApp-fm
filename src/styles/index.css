@@ -16,6 +16,22 @@
     --red-hover: #FF9898;
     --task-shadow: 54, 78, 126;
 
+    /*theme variables*/
+    --color-background: var(--light-grey);
+    --color-background-secondary:  var(--white);
+    --color-text: var(--black);
+    --color-text-secondary: var(--dark-grey);
+    --color-primary: var(--main-purple);
+    --color-secondary: var(--medium-grey);
+    --color-accent: var(--red);
+    --color-border: var(--lines-light);
+    --color-border-light: rgba(130, 143, 163, 0.25);
+    --color-on-primary: var(--white);
+    --color-hover-background: rgba(99, 95, 199, 0.1);
+    --color-primary-opacity-10: rgba(99, 95, 199, 0.1);
+    --color-primary-opacity-25: rgba(99, 95, 199, 0.25);
+
+    /* layout variables */
     --border-radius: 4px;
     --input-height: 2.5rem;
     --padding-small: 8px;
@@ -29,6 +45,21 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.dark-mode {
+    --color-background: var(--very-dark-grey);
+    --color-background-secondary: var(--dark-grey);
+    --color-text: var(--white);
+    --color-primary: var(--main-purple);
+    --color-secondary: var(--medium-grey);
+    --color-accent: var(--red);
+    --color-border: var(--lines-dark);
+    --color-border-light: rgba(130, 143, 163, 0.25);
+    --color-on-primary: var(--white);
+    --color-hover-background: rgba(99, 95, 199, 0.2);
+    --color-primary-opacity-10: rgba(99, 95, 199, 0.1);
+    --color-primary-opacity-25: rgba(99, 95, 199, 0.25);
 }
 
 html,
@@ -53,7 +84,7 @@ body {
 }
 
 #root{
-    background-color: var(--light-grey);
+    background-color: var(--color-background);
     max-width: 100%;
     width: 100%;
     height: 100%;
@@ -74,7 +105,7 @@ body {
 }
 
 .modal-card {
-    background: var(--white);
+    background: var(--color-background-secondary);
     padding: 2rem;
     border-radius: 8px;
     max-width: 21.5rem;

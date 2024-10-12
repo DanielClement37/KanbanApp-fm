@@ -10,6 +10,7 @@ const AddColumn = ({closeModal}: AddColumnProps) => {
     const {state, dispatch} = useContext(AppContext);
     const [columnName, setColumnName] = React.useState('');
 
+
     const handleColumnNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setColumnName(e.target.value);
     }
