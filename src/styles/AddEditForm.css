@@ -145,7 +145,7 @@ input::placeholder, textarea::placeholder {
 
 .add-list-item-btn {
     color: var(--color-primary);
-    background-color: var(--color-primary-opacity-10);
+    background-color: var(--color-background-accent);
 }
 
 .add-list-item-btn:hover {

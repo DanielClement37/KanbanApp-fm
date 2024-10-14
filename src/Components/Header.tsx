@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import {useMediaQuery} from "react-responsive";
 import LogoMobile from "../assets/logo-mobile.svg";
-// import LogoLight from "../assets/logo-light.svg";
+import LogoLight from "../assets/logo-light.svg";
 import LogoDark from "../assets/logo-dark.svg";
 import ChevronDown from "../assets/icon-chevron-down.svg";
 import ChevronUp from "../assets/icon-chevron-up.svg";
@@ -15,10 +15,12 @@ import AddEditTask from "./Modals/AddEditTask";
 import AddEditBoard from "./Modals/AddEditBoard";
 import {DELETE_BOARD, SET_ACTIVE_BOARD_ID} from "../stateManagement/actions/actiontypes.ts";
 import MobileBoardMenu from "./Modals/MobileBoardMenu.tsx";
+import {ThemeContext} from "../stateManagement/context/ThemeContext.tsx";
 
 const Header = () => {
     const isBiggerScreen = useMediaQuery({minWidth: 768}); // For Tablet and up
     const {state, dispatch} = useContext(AppContext);
+    const {isDarkMode} = useContext(ThemeContext)
     const {boards} = state;
     const {activeBoardId} = state.ui;
     const board = activeBoardId ? boards[activeBoardId] : null;
@@ -48,7 +50,7 @@ const Header = () => {
         <div className="header-container">
             <header>
                 <div className="logo-container">
-                    <img className="logo" src={!isBiggerScreen ? LogoMobile : LogoDark} alt="logo"/>
+                    <img className="logo" src={!isBiggerScreen ? LogoMobile : (isDarkMode)? LogoLight : LogoDark} alt="logo"/>
                 </div>
                 <div onClick={() => setIsDropDownOpen(!isDropDownOpen)} className="board-name-container heading-L">
                     <h3>{board ? board.name : "No Board Selected"}</h3>

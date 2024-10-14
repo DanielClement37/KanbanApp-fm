@@ -19,6 +19,7 @@
     /*theme variables*/
     --color-background: var(--light-grey);
     --color-background-secondary:  var(--white);
+    --color-background-accent: rgba(99, 95, 199, 0.1);
     --color-text: var(--black);
     --color-text-secondary: var(--dark-grey);
     --color-primary: var(--main-purple);
@@ -31,6 +32,7 @@
     --color-primary-opacity-10: rgba(99, 95, 199, 0.1);
     --color-primary-opacity-25: rgba(99, 95, 199, 0.25);
     --color-placeholder: rgba(0,0,0,.5);
+    --add-column-bg: var(--new-column-light);
 
     /* layout variables */
     --border-radius: 4px;
@@ -51,6 +53,7 @@
 .dark-mode {
     --color-background: var(--very-dark-grey);
     --color-background-secondary: var(--dark-grey);
+    --color-background-accent: var(--white);
     --color-text: var(--white);
     --color-primary: var(--main-purple);
     --color-secondary: var(--medium-grey);
@@ -62,6 +65,7 @@
     --color-primary-opacity-10: rgba(99, 95, 199, 0.1);
     --color-primary-opacity-25: rgba(99, 95, 199, 0.25);
     --color-placeholder: rgba(255,255,255,.5);
+    --add-column-bg: var(--dark-grey);
 }
 
 html,

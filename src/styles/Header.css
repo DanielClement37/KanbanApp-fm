@@ -9,13 +9,9 @@ header {
     height: 100%;
 	display: flex;
 	align-items: center;
-	background-color: var(--white);
+	background-color: var(--color-background-secondary);
 	position: relative;
     padding-right: 16px;
-}
-
-.dark header {
-	background: var(--dark-grey);
 }
 
 .logo-container{
@@ -28,6 +24,7 @@ header {
 	gap: 8px;
 	margin-right: auto;
 	margin-left: 16px;
+	color: var(--color-text);
 }
 
 .add-task-btn {
@@ -49,7 +46,7 @@ header {
 
 
 .board-menu-card{
-	background: var(--white);
+	background: var(--color-background-secondary);
 	border-radius: 8px;
 	width: 70%;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -66,7 +63,7 @@ header {
 		display: flex;
 		align-items: center;
 		width: 261px;
-		border-right: 1px solid var(--lines-light);
+		border-right: 1px solid var(--color-border);
 		padding-left: 1.5rem;
 	}
     

@@ -8,7 +8,7 @@
 }
 
 .ellipsis-container:hover{
-    background-color: var(--light-grey);
+    background-color: var(--color-hover-background);
     border-radius: 50%;
 }
 
@@ -21,7 +21,7 @@
 .ellipse-menu-container{
     width: 12rem;
     height: 5.875rem;
-    background-color: var(--white);
+    background-color: var(--color-background-secondary);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(var(--task-shadow), 0.1015);
     display: flex;
