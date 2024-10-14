@@ -30,6 +30,7 @@
     --color-hover-background: rgba(99, 95, 199, 0.1);
     --color-primary-opacity-10: rgba(99, 95, 199, 0.1);
     --color-primary-opacity-25: rgba(99, 95, 199, 0.25);
+    --color-placeholder: rgba(0,0,0,.5);
 
     /* layout variables */
     --border-radius: 4px;
@@ -60,6 +61,7 @@
     --color-hover-background: rgba(99, 95, 199, 0.2);
     --color-primary-opacity-10: rgba(99, 95, 199, 0.1);
     --color-primary-opacity-25: rgba(99, 95, 199, 0.25);
+    --color-placeholder: rgba(255,255,255,.5);
 }
 
 html,

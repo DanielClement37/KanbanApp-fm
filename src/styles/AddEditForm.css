@@ -2,6 +2,7 @@
 /* Modal Title */
 .modal-title-container {
     padding-bottom: var(--gap-large);
+    color: var(--color-text);
 }
 
 /* Input Container */
@@ -17,6 +18,15 @@
     flex-direction: column;
     gap: var(--gap-small);
     margin: 0;
+}
+
+.input-item select {
+    color: var(--color-text);
+}
+
+/* For input elements */
+input::placeholder, textarea::placeholder {
+    color: var(--color-placeholder);
 }
 
 /* Input Field */
@@ -45,6 +55,10 @@
 .input-field-container {
     position: relative;
     width: 100%;
+}
+
+.input-field-container input {
+    color: var(--color-text);
 }
 
 /* Error Message Inside Input Field */
