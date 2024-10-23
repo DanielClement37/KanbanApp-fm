@@ -5,6 +5,7 @@ import IconLightTheme from "../../assets/icon-light-theme.svg";
 import IconDarkTheme from "../../assets/icon-dark-theme.svg";
 import {SidebarItem} from "../FormComponents/SidebarItems.tsx";
 import AddEditBoard from "./AddEditBoard.tsx";
+import {ThemeContext} from "../../stateManagement/context/ThemeContext.tsx";
 
 interface MobileBoardMenuProps {
     closeModal: () => void;
@@ -12,6 +13,7 @@ interface MobileBoardMenuProps {
 
 const MobileBoardMenu = ({closeModal}: MobileBoardMenuProps) => {
     const {state, dispatch} = useContext(AppContext);
+    const {isDarkMode, toggleDarkMode} = useContext(ThemeContext);
     const {boards} = state;
 
     const [showBoardModal, setShowBoardModal] = useState(false);
@@ -58,7 +60,7 @@ const MobileBoardMenu = ({closeModal}: MobileBoardMenuProps) => {
                         <div className="theme-switch">
                             <img className="theme-icon" src={IconLightTheme} alt="Light Theme"/>
                             <label className="switch">
-                                <input type="checkbox"/>
+                                <input type="checkbox" checked={isDarkMode} onChange={toggleDarkMode}/>
                                 <span className="slider round"></span>
                             </label>
                             <img className="theme-icon" src={IconDarkTheme} alt="Dark Theme"/>

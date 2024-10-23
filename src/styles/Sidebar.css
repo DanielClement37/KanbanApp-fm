@@ -67,7 +67,7 @@
 }
 
 .sidebar-item:hover:not(.selected) {
-	background-color: var(--color-hover-background);
+	background-color: var(--color-hover-sidebar);
 	color: var(--color-primary);
 	border-top-right-radius: 100px;
 	border-bottom-right-radius: 100px;
