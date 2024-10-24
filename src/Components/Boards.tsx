@@ -31,22 +31,24 @@ const Boards = () => {
     };
 
     return (
-        <div className="board-container">
-            {columnsForActiveBoard.map((column) => (
-                <BoardColumn key={column.id} column={column} openTaskModal={openTaskModal}/>
-            ))}
-            <div className="add-column-btn" onClick={() => setShowAddColumnModal(true)}>
-                <h2 className="heading-XL">+ New Column</h2>
+        <div className="boards-container">
+            <div className="board-container">
+                {columnsForActiveBoard.map((column) => (
+                    <BoardColumn key={column.id} column={column} openTaskModal={openTaskModal}/>
+                ))}
+                <div className="add-column-btn" onClick={() => setShowAddColumnModal(true)}>
+                    <h2 className="heading-XL">+ New Column</h2>
+                </div>
+                {activeTaskId && (
+                    <ViewTask
+                        taskId={activeTaskId}
+                        closeTaskModal={closeTaskModal}
+                    />
+                )}
+                {showAddColumnModal && (
+                    <AddColumn closeModal={() => setShowAddColumnModal(false)}/>
+                )}
             </div>
-            {activeTaskId && (
-                <ViewTask
-                    taskId={activeTaskId}
-                    closeTaskModal={closeTaskModal}
-                />
-            )}
-            {showAddColumnModal && (
-                <AddColumn closeModal={()=> setShowAddColumnModal(false)}/>
-            )}
         </div>
     );
 };

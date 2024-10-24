@@ -2,6 +2,7 @@ import { Board, Column, Task } from "../../types/kanbanTypes";
 
 // Action Type Constants
 export const SET_ACTIVE_BOARD_ID = "SET_ACTIVE_BOARD_ID";
+export const SET_SIDEBAR_VISIBILITY = "SET_SIDEBAR_VISIBILITY";
 export const SET_TASK_VIEW = "SET_TASK_VIEW";
 export const SET_SUBTASK_STATE = "SET_SUBTASK_STATE";
 export const MOVE_TASK = "MOVE_TASK";
@@ -20,6 +21,11 @@ export const DELETE_COLUMN = "DELETE_COLUMN";
 export interface SetActiveBoardIdAction {
     type: typeof SET_ACTIVE_BOARD_ID;
     payload: string;
+}
+
+export interface SetSidebarVisibilityAction {
+    type: typeof SET_SIDEBAR_VISIBILITY;
+    payload: boolean;
 }
 
 export interface SetTaskViewAction {
@@ -98,6 +104,7 @@ export interface DeleteColumnAction {
 
 export type Action =
     | SetActiveBoardIdAction
+    | SetSidebarVisibilityAction
     | SetTaskViewAction
     | SetSubtaskStateAction
     | MoveTaskAction

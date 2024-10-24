@@ -18,7 +18,11 @@ function App() {
             <Header/>
             <div className="content-container">
                 {isBiggerScreen && <Sidebar/>}
-                {(Object.keys(boards).length === 0 || state.ui.activeBoardId === null) ? <EmptyBoard/> : <Boards/>}
+                {Object.keys(boards).length === 0 || state.ui.activeBoardId === null ? (
+                    <EmptyBoard/>
+                ) : (
+                    <Boards/>
+                )}
             </div>
         </div>
     );

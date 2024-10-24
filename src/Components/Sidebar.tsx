@@ -4,7 +4,7 @@ import IconLightTheme from "../assets/icon-light-theme.svg";
 import IconDarkTheme from "../assets/icon-dark-theme.svg";
 import IconShowSidebar from "../assets/icon-show-sidebar.svg";
 import "../styles/Sidebar.css";
-import {SET_ACTIVE_BOARD_ID} from "../stateManagement/actions/actiontypes";
+import {SET_ACTIVE_BOARD_ID, SET_SIDEBAR_VISIBILITY} from "../stateManagement/actions/actiontypes";
 import AddEditBoard from "./Modals/AddEditBoard.tsx";
 import {SidebarItem} from "./FormComponents/SidebarItems.tsx";
 import {ThemeContext} from "../stateManagement/context/ThemeContext.tsx";
@@ -12,18 +12,18 @@ import {ThemeContext} from "../stateManagement/context/ThemeContext.tsx";
 const Sidebar: React.FC = () => {
     const {state, dispatch} = useContext(AppContext);
     const {boards} = state;
-    const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+    const { isSidebarVisible } = state.ui;
     const [showBoardModal, setShowBoardModal] = useState(false);
     const boardIds = Object.keys(boards);
 
     const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
 
     const handleHideSidebar = () => {
-        setIsSidebarVisible(false);
+        dispatch({ type: SET_SIDEBAR_VISIBILITY, payload: false });
     };
 
     const handleShowSidebar = () => {
-        setIsSidebarVisible(true);
+        dispatch({ type: SET_SIDEBAR_VISIBILITY, payload: true });
     };
 
     const handleSidebarItemClick = (boardId: string) => {
