@@ -44,7 +44,7 @@
 }
 
 .btn-grey {
-    background-color: rgba(var(--task-shadow), 0.1);
+    background-color: var(--color-cancel-btn);
     color: var(--color-primary);
 }
 

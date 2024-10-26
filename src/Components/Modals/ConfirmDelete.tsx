@@ -14,8 +14,8 @@ const ConfirmDelete = ({type, item, onDelete, onCancel}: ConfirmDeleteProps) => 
     const itemName = type === 'board' ? (item as Board).name : (item as Task).title;
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-card">
+        <div className="modal-overlay" onClick={onCancel}>
+            <div className="modal-card" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-content-container">
                     <h3 className="red-text heading-L">
                         Delete this {type}?
