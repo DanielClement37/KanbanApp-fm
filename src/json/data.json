@@ -2,15 +2,18 @@
   "boards": [
     {
       "id": "board-1",
-      "name": "Platform Launch"
+      "name": "Platform Launch",
+      "columnOrder": ["column-1", "column-2", "column-3"]
     },
     {
       "id": "board-2",
-      "name": "Marketing Plan"
+      "name": "Marketing Plan",
+      "columnOrder": ["column-4", "column-5", "column-6"]
     },
     {
       "id": "board-3",
-      "name": "Roadmap"
+      "name": "Roadmap",
+      "columnOrder": ["column-7", "column-8", "column-9"]
     }
   ],
   "columns": [

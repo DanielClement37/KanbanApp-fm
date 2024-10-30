@@ -15,6 +15,7 @@ export const DELETE_BOARD = "DELETE_BOARD";
 export const ADD_COLUMN = "ADD_COLUMN";
 export const EDIT_COLUMN = "EDIT_COLUMN";
 export const DELETE_COLUMN = "DELETE_COLUMN";
+export const REORDER_COLUMNS = 'REORDER_COLUMNS';
 
 // Action Interfaces
 
@@ -102,6 +103,14 @@ export interface DeleteColumnAction {
     };
 }
 
+export interface ReorderColumnsAction {
+    type: typeof REORDER_COLUMNS;
+    payload: {
+        boardId: string;
+        columnOrder: string[];
+    };
+}
+
 export type Action =
     | SetActiveBoardIdAction
     | SetSidebarVisibilityAction
@@ -116,4 +125,5 @@ export type Action =
     | DeleteBoardAction
     | AddColumnAction
     | EditColumnAction
-    | DeleteColumnAction;
+    | DeleteColumnAction
+    | ReorderColumnsAction;

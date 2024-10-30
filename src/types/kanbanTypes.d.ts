@@ -2,6 +2,7 @@
 export interface Board {
     id: string;
     name: string;
+    columnOrder: string[];
 }
 
 export interface Column {

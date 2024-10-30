@@ -26,6 +26,21 @@
     margin-bottom: 4rem;
 }
 
+.column-container.dragging {
+    opacity: 0.5;
+}
+
+.column-container {
+    transition: opacity 0.2s;
+}
+
+.column-header-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
 .column-name-container{
     display: flex;
     gap:12px;
@@ -38,6 +53,11 @@
 }
 
 .column-name{
+    color: var(--color-secondary);
+}
+
+.drag-n-drop-icon{
+    cursor: pointer;
     color: var(--color-secondary);
 }
 
